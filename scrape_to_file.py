@@ -12,7 +12,7 @@ def append_to_file(post_list, timestamp):
       title = str(post.title).replace(",", "")
       file.write(f'{post.author},{post.created},{post.flair},{title},{text},{post.score},{post.edited},{post.locked},{post.num_comments},{post.num_awards},{post.ups},{post.downs},{post.ratio}\n')
 
-max_posts = 100
+max_posts = 1000
 time_between_scrapes = 0.2
 limit = 100
 good_record_count = 0
@@ -58,6 +58,6 @@ while good_record_count < max_posts:
         refined_posts_list.append(refined_post)
     append_to_file(refined_posts_list, timestamp)
     print(f'Records saved so far: {good_record_count}')
-    time.sleep(2.5) # To avoid rate limiter
+    time.sleep(time_between_scrapes) # To avoid rate limiter
   else:
     break
