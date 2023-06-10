@@ -3,6 +3,7 @@ from refined_post import Refined_Post
 import time
 import os
 from datetime import datetime
+import csv
 
 # Writes a list of posts to a csv file
 def append_to_file(post_list, timestamp):
@@ -11,9 +12,37 @@ def append_to_file(post_list, timestamp):
       text = str(post.text).replace(",", "").replace("\n", " ").replace("\r", "")
       title = str(post.title).replace(",", "")
       file.write(f'{post.author},{post.created},{post.flair},{title},{text},{post.score},{post.edited},{post.locked},{post.num_comments},{post.num_awards},{post.ups},{post.downs},{post.ratio}\n')
+    
+# Finds the most recent post based on date
+def get_most_recent_post():
+  # Get most recent file
+  newest_file = newest('./')
+  max_timestamp = 0
+  with open(newest_file, 'r', encoding='utf-8') as file:
+    reader = csv.reader(file)
+    # First line is "Created" header
+    reader.__next__()
+    timestamp_index = 1
+    for row in reader:
+      timestamp = int(row[timestamp_index].split('.')[0])
+      try:
+        if timestamp > max_timestamp:
+          max_timestamp = timestamp
+      except:
+        pass
+  return max_timestamp
 
-max_posts = 1000
-time_between_scrapes = 0.2
+# Gets most recent file, u/glglgl 
+# https://stackoverflow.com/questions/39327032/how-to-get-the-latest-file-in-a-folder
+def newest(path):
+    files = os.listdir(path)
+    paths = [os.path.join(path, basename) for basename in files if basename.endswith('.csv')]
+    return max(paths, key=os.path.getctime)
+
+
+most_recent_post_collected = get_most_recent_post() # the timestamp only
+max_posts = 10000
+time_between_scrapes = 2.5
 limit = 100
 good_record_count = 0
 desired_flairs = ['Not the A-hole', 'Asshole', 'No A-holes here', 'Everyone Sucks']
@@ -39,7 +68,7 @@ while good_record_count < max_posts:
     last_post = posts_list[-1]['data']['name']
     refined_posts_list = []
     for post in posts_list:
-      if post['data']['link_flair_text'] in desired_flairs:
+      if post['data']['link_flair_text'] in desired_flairs and post['data']['created'] > most_recent_post_collected:
         refined_post = Refined_Post()
         refined_post.author = post['data']['author']
         refined_post.created = post['data']['created']
@@ -60,4 +89,5 @@ while good_record_count < max_posts:
     print(f'Records saved so far: {good_record_count}')
     time.sleep(time_between_scrapes) # To avoid rate limiter
   else:
+    print('Max records reached.')
     break
