@@ -7,7 +7,7 @@ import csv
 
 # Writes a list of posts to a csv file
 def append_to_file(post_list, timestamp):
-  with open(f'filtered_posts_{timestamp.date()}.csv', 'a', encoding='utf-8') as file:
+  with open(f'./csvFiles/filtered_posts_{timestamp.date()}.csv', 'a', encoding='utf-8') as file:
     for post in post_list:
       text = str(post.text).replace(",", "").replace("\n", " ").replace("\r", "")
       title = str(post.title).replace(",", "")
@@ -16,7 +16,7 @@ def append_to_file(post_list, timestamp):
 # Finds the most recent post based on date
 def get_most_recent_post():
   # Get most recent file
-  newest_file = newest('./')
+  newest_file = newest('./csvFiles')
   max_timestamp = 0
   with open(newest_file, 'r', encoding='utf-8') as file:
     reader = csv.reader(file)
@@ -36,6 +36,7 @@ def get_most_recent_post():
 # https://stackoverflow.com/questions/39327032/how-to-get-the-latest-file-in-a-folder
 def newest(path):
     files = os.listdir(path)
+    print(path)
     paths = [os.path.join(path, basename) for basename in files if basename.endswith('.csv')]
     return max(paths, key=os.path.getctime)
 
@@ -51,8 +52,8 @@ number_of_calls = 0
 timestamp = datetime.now()
 
 # Does file already exist? If not make file with headers
-if (not os.path.isfile(f'filtered_posts_{timestamp.date()}.csv')):
-  with open(f'filtered_posts_{timestamp.date()}.csv', 'a', encoding='utf-8') as file:
+if (not os.path.isfile(f'./csvFiles/filtered_posts_{timestamp.date()}.csv')):
+  with open(f'./csvFiles/filtered_posts_{timestamp.date()}.csv', 'a', encoding='utf-8') as file:
     file.write('Author,Created,Flair,Title,Text,Score,Edited,Locked,NumComments,NumAwards,Ups,Downs,Ratio\n')
 
 # Collect posts
