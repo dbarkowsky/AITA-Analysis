@@ -19,6 +19,10 @@ class Refined_Post:
     def isRomantic(self) -> bool:
         romantic_words = ['partner', 'spouse', 'girlfriend', 'boyfriend', 'husband', 'wife', 'significant other', 'so']
         for word in romantic_words:
-            if re.search(word, self.text):
+            if re.search(word, self.text, re.IGNORECASE):
                 return True
         return False
+    
+    def getIdentifiers(self) -> [str]:
+        return re.findall(r'\d{2}[MF]|[MF]\d{2}', self.text, re.IGNORECASE)
+        
