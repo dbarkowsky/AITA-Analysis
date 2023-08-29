@@ -17,6 +17,21 @@ class Refined_Post:
         self.ups = None
         self.ratio = None
 
+    def __init__(self, row):
+        self.author = row[0]
+        self.created = row[1]
+        self.flair = row[2]
+        self.title = row[3]
+        self.text = row[4]
+        self.score = row[4]
+        self.edited = row[6]
+        self.locked = row[7]
+        self.num_comments = row[8]
+        self.num_awards = row[9]
+        self.ups = row[10]
+        self.downs = row[11]
+        self.ratio = row[12]
+
     # Returns true if a word suggesting a romantic relationship is found
     def isRomantic(self) -> bool:
         romantic_words = [
@@ -46,4 +61,7 @@ class Refined_Post:
         ages = []  # a list of just ages
         for identifier in identifiers:
             ages.append(int(re.findall(r"\d{2}", identifier)[0]))
-        return max(ages) - min(ages)
+        if len(ages) > 1:
+            return max(ages) - min(ages)
+        else:
+            return "_"
