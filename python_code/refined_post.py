@@ -23,7 +23,7 @@ class Refined_Post:
             self.flair = row[2]
             self.title = row[3]
             self.text = row[4]
-            self.score = row[4]
+            self.score = row[5]
             self.edited = row[6]
             self.locked = row[7]
             self.num_comments = row[8]
@@ -65,3 +65,23 @@ class Refined_Post:
             return max(ages) - min(ages)
         else:
             return "_"
+
+    # Tries to determine if the poster is male (M) or female (F)
+    # Also tries to get their age
+    def getPosterAgeGender(self) -> dict:
+        result = dict()
+        try:
+            possibleIdentifier = re.search(
+                r"(myself|I|me)\s*[\(\[\{](\d{2}[MF]|[MF]\d{2})",
+                self.text,
+                re.IGNORECASE,
+            )
+            justAge = re.search(r"\d{2}", possibleIdentifier.group(2))
+            justGender = re.search(r"[mf]", possibleIdentifier.group(2), re.IGNORECASE)
+            result["age"] = justAge.group(0)
+            result["gender"] = str(justGender.group(0)).upper()
+        except:
+            result["age"] = "_"
+            result["gender"] = "_"
+        finally:
+            return result

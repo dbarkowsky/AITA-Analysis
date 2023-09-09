@@ -18,10 +18,11 @@ def get_all_posts():
                 total_records += 1
                 post = Refined_Post(row)
                 isRomantic = post.isRomantic()
+                ageGender = post.getPosterAgeGender()
                 if isRomantic:
                     romantic_records += 1
                 posts.append(
-                    f"{','.join(row)},{post.getAgeRange()},{isRomantic},{len(post.getIdentifiers())}\n"
+                    f"{post.author},{post.created},{post.flair},{post.score},{post.edited},{post.locked},{post.num_comments},{post.num_awards},{post.ups},{post.downs},{post.ratio},{post.getAgeRange()},{isRomantic},{len(post.getIdentifiers())},{ageGender['age']},{ageGender['gender']}\n"
                 )
     return posts
 
@@ -30,11 +31,11 @@ timestamp = datetime.now()
 total_records = 0
 romantic_records = 0
 
-with open(f"./combined_posts_{timestamp.date()}.csv", "w", encoding="utf-8") as file:
+with open(f"./combined_posts.csv", "w", encoding="utf-8") as file:
     file.write(
-        "Author,Created,Flair,Title,Text,Score,Edited,Locked,NumComments,NumAwards,Ups,Downs,Ratio,Range,IsRomantic,NumParticipants\n"
+        "Author,Created,Flair,Score,Edited,Locked,NumComments,NumAwards,Ups,Downs,Ratio,Range,IsRomantic,NumParticipants,Age,Gender\n"
     )
-with open(f"./combined_posts_{timestamp.date()}.csv", "a", encoding="utf-8") as file:
+with open(f"./combined_posts.csv", "a", encoding="utf-8") as file:
     post_list = get_all_posts()
     for post in post_list:
         file.write(post)
