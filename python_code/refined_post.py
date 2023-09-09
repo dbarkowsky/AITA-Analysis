@@ -42,13 +42,14 @@ class Refined_Post:
             "husband",
             "wife",
             "significant other",
-            "so",
             "gf",
             "bf",
         ]
         for word in romantic_words:
             if re.search(word, self.text, re.IGNORECASE):
                 return True
+        if re.search(r"SO", self.text):
+            return True
         return False
 
     # Gets all the instances of age and gender
