@@ -18,6 +18,8 @@
 # 13. If only 2 participants, compare same vs different gender. For M and F.
 
 import csv
+import statistics
+from collections import defaultdict
 
 
 class Combined_Row:
@@ -41,6 +43,8 @@ class Combined_Row:
 
 
 frequent_posters = dict()
+flair_count = dict()
+flair_score_lists = defaultdict(list)
 
 with open(f"./combined_posts.csv", "r", encoding="utf-8") as file:
     reader = csv.reader(file)
@@ -52,7 +56,20 @@ with open(f"./combined_posts.csv", "r", encoding="utf-8") as file:
         frequent_posters[combined_row.author] = (
             frequent_posters.get(combined_row.author, 0) + 1
         )
+        # Count number of each flair
+        flair_count[combined_row.flair] = flair_count.get(combined_row.flair, 0) + 1
+        # Sum of score for each flair
+        flair_score_lists[combined_row.flair].append(int(combined_row.score))
 
+    # Find top 10 (11 including deleted) posters
     top_10 = sorted(frequent_posters, key=frequent_posters.get, reverse=True)[:11]
     for poster in top_10:
         print(f"{poster}: {frequent_posters[poster]}")
+
+    # How many of each flair?
+    print(flair_count)
+    # Median and Mean of each flair
+    for flair in flair_score_lists.keys():
+        print(f"{flair}: {statistics.median(flair_score_lists[flair])}")
+    for flair in flair_score_lists.keys():
+        print(f"{flair}: {statistics.mean(flair_score_lists[flair])}")
