@@ -18,8 +18,7 @@
 # 13. If only 2 participants, compare same vs different gender. For M and F.
 
 import csv
-import statistics
-from collections import defaultdict
+from stats_bundler import StatsBundler
 
 
 class Combined_Row:
@@ -42,34 +41,26 @@ class Combined_Row:
         self.gender = row[15]
 
 
-frequent_posters = dict()
-flair_count = dict()
-flair_score_lists = defaultdict(list)
+stats = StatsBundler()
 
 with open(f"./combined_posts.csv", "r", encoding="utf-8") as file:
     reader = csv.reader(file)
     # Skip first line (header)
     reader.__next__()
-    for row in reader:
-        combined_row = Combined_Row(row)
+    for x in reader:
+        row = Combined_Row(x)
         # Count how many times they've posted
-        frequent_posters[combined_row.author] = (
-            frequent_posters.get(combined_row.author, 0) + 1
-        )
+        stats.increment_poster(row.author)
         # Count number of each flair
-        flair_count[combined_row.flair] = flair_count.get(combined_row.flair, 0) + 1
+        stats.increment_flair(row.flair)
         # Sum of score for each flair
-        flair_score_lists[combined_row.flair].append(int(combined_row.score))
+        stats.append_score(row.flair, row.score)
 
     # Find top 10 (11 including deleted) posters
-    top_10 = sorted(frequent_posters, key=frequent_posters.get, reverse=True)[:11]
-    for poster in top_10:
-        print(f"{poster}: {frequent_posters[poster]}")
+    stats.top_10_posters()
 
     # How many of each flair?
-    print(flair_count)
+    stats.flair_totals()
     # Median and Mean of each flair
-    for flair in flair_score_lists.keys():
-        print(f"{flair}: {statistics.median(flair_score_lists[flair])}")
-    for flair in flair_score_lists.keys():
-        print(f"{flair}: {statistics.mean(flair_score_lists[flair])}")
+    stats.flair_medians()
+    stats.flair_means()
