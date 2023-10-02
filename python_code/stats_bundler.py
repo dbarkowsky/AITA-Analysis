@@ -7,6 +7,8 @@ import json
 class StatsBundler:
     def __init__(self):
         default_dict = {
+            "count": 0,
+            "score_list": [],
             "gender": {"M": 0, "F": 0, "same": 0, "different": 0},
             "edited": 0,
             "age_chunk": {"<19": 0, "19-25": 0, "26-35": 0, "36-45": 0, ">45": 0},
@@ -17,8 +19,6 @@ class StatsBundler:
             "num_comments_list": [],
         }
         self.frequent_posters = dict()
-        self.flair_count = dict()
-        self.flair_score_lists = defaultdict(list)
         self.ahole_count = {
             "Not the A-hole": copy.deepcopy(default_dict),
             "Asshole": copy.deepcopy(default_dict),
@@ -31,10 +31,10 @@ class StatsBundler:
         self.frequent_posters[poster] = self.frequent_posters.get(poster, 0) + 1
 
     def increment_flair(self, flair):
-        self.flair_count[flair] = self.flair_count.get(flair, 0) + 1
+        self.ahole_count[flair]["count"] += 1
 
     def append_score(self, flair, score):
-        self.flair_score_lists[flair].append(int(score))
+        self.ahole_count[flair]["score_list"].append(int(score))
 
     def increment_gender(self, flair, gender):
         if ["M", "F"].__contains__(gender):
@@ -97,21 +97,23 @@ class StatsBundler:
 
     def flair_totals(self):
         print("Total of each Flair:")
-        for key in self.flair_count.keys():
-            print(f"{key}: {self.flair_count[key]}")
+        for flair in self.ahole_count.keys():
+            print(f"{flair}: {self.ahole_count[flair]['count']}")
         print()
 
     def flair_medians(self):
         print("Median Score per Flair:")
-        for flair in self.flair_score_lists.keys():
-            print(f"{flair}: {statistics.median(self.flair_score_lists[flair])}")
+        for flair in self.ahole_count.keys():
+            print(
+                f"{flair}: {statistics.median(self.ahole_count[flair]['score_list'])}"
+            )
         print()
 
     def flair_means(self):
         print("Mean Score per Flair:")
-        for flair in self.flair_score_lists.keys():
+        for flair in self.ahole_count.keys():
             print(
-                f"{flair}: {round(statistics.mean(self.flair_score_lists[flair]), 2)}"
+                f"{flair}: {round(statistics.mean(self.ahole_count[flair]['score_list']), 2)}"
             )
         print()
 

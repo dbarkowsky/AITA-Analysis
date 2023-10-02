@@ -76,4 +76,4 @@ stats.flair_means()
 stats.comments_means()
 
 # Print A-hole count
-stats.pretty_print_ahole_count()
+# stats.pretty_print_ahole_count()
