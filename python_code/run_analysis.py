@@ -51,6 +51,9 @@ with open(f"./combined_posts.csv", "r", encoding="utf-8") as file:
         # Count age ranges
         if str(post.age_range).isdigit():
             stats.increment_age_range(post.flair, post.age_range)
+        # Count avg age brackets
+        if str(post.identifier_age_avg).isdigit():
+            stats.increment_avg_age(post.flair, post.identifier_age_avg)
         # Count if romantic
         if post.is_romantic == "True":
             stats.increment_romantic(post.flair)
@@ -70,4 +73,4 @@ stats.flair_means()
 stats.comments_means()
 
 # Print A-hole count
-# stats.pretty_print_ahole_count()
+stats.pretty_print_ahole_count()

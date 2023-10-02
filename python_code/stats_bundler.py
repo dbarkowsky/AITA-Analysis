@@ -12,6 +12,7 @@ class StatsBundler:
             "age_chunk": {"<19": 0, "19-25": 0, "26-35": 0, "36-45": 0, ">45": 0},
             "age": {},
             "age_range": {},  # difference between youngest and oldest
+            "avg_age": {},  # count avg age between all participants in one post
             "romantic": 0,
             "num_comments_list": [],
         }
@@ -64,6 +65,11 @@ class StatsBundler:
     def increment_age_range(self, flair, range):
         self.ahole_count[flair]["age_range"][str(range)] = (
             self.ahole_count[flair]["age_range"].get(str(range), 0) + 1
+        )
+
+    def increment_avg_age(self, flair, age):
+        self.ahole_count[flair]["avg_age"][str(age)] = (
+            self.ahole_count[flair]["avg_age"].get(str(age), 0) + 1
         )
 
     def increment_romantic(self, flair):

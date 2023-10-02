@@ -107,7 +107,7 @@ class Refined_Post:
         else:
             return "_"
 
-    # Gets average age of detected participants
+    # Gets average age of detected participants, rounded
     def getParticipantAgeAvg(self):
         identifiers = self.getIdentifiers()
         # This only really matters if we have more than 1
@@ -118,7 +118,7 @@ class Refined_Post:
             age = re.search(r"\d{2}", participant)
             ages.append(int(age.group(0)))
 
-        return statistics.mean(ages)
+        return round(statistics.mean(ages))
 
     # Sees if the gender of all participants is the same
     def isSameGender(self):
