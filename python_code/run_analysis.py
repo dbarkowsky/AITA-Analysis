@@ -41,6 +41,9 @@ with open(f"./combined_posts.csv", "r", encoding="utf-8") as file:
         stats.append_score(post.flair, post.score)
         # Count genders per flair
         stats.increment_gender(post.flair, post.gender)
+        # Count if same or different gender
+        if post.same_gender == "True" or post.same_gender == "False":
+            stats.increment_same_different_gender(post.flair, post.same_gender)
         # Count if edited (will be a number representing date, otherwise False string)
         if post.edited != "False":
             stats.increment_edited(post.flair)

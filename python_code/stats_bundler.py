@@ -40,6 +40,12 @@ class StatsBundler:
         if ["M", "F"].__contains__(gender):
             self.ahole_count[flair]["gender"][gender] += 1
 
+    def increment_same_different_gender(self, flair, isSame):
+        if isSame == "True":
+            self.ahole_count[flair]["gender"]["same"] += 1
+        else:
+            self.ahole_count[flair]["gender"]["different"] += 1
+
     def increment_edited(self, flair):
         self.ahole_count[flair]["edited"] += 1
 
