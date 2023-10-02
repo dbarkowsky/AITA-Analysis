@@ -54,6 +54,8 @@ with open(f"./combined_posts.csv", "r", encoding="utf-8") as file:
         # Count if romantic
         if post.is_romantic == "True":
             stats.increment_romantic(post.flair)
+        # Add number of comments to list
+        stats.append_comments_count(post.flair, post.num_comments)
 
 # Find top 10 (11 including deleted) posters
 stats.top_10_posters()
@@ -64,5 +66,8 @@ stats.flair_totals()
 stats.flair_medians()
 stats.flair_means()
 
+# Mean of comments counts
+stats.comments_means()
+
 # Print A-hole count
-stats.pretty_print_ahole_count()
+# stats.pretty_print_ahole_count()

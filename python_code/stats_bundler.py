@@ -11,8 +11,9 @@ class StatsBundler:
             "edited": 0,
             "age_chunk": {"<19": 0, "19-25": 0, "26-35": 0, "36-45": 0, ">45": 0},
             "age": {},
-            "age_range": {},
+            "age_range": {},  # difference between youngest and oldest
             "romantic": 0,
+            "num_comments_list": [],
         }
         self.frequent_posters = dict()
         self.flair_count = dict()
@@ -68,6 +69,9 @@ class StatsBundler:
     def increment_romantic(self, flair):
         self.ahole_count[flair]["romantic"] += 1
 
+    def append_comments_count(self, flair, comments_count):
+        self.ahole_count[flair]["num_comments_list"].append(int(comments_count))
+
     # Calculations
     def top_10_posters(self):
         top_10 = sorted(
@@ -96,6 +100,14 @@ class StatsBundler:
         for flair in self.flair_score_lists.keys():
             print(
                 f"{flair}: {round(statistics.mean(self.flair_score_lists[flair]), 2)}"
+            )
+        print()
+
+    def comments_means(self):
+        print("Mean Number of Comments per Flair:")
+        for flair in self.ahole_count.keys():
+            print(
+                f"{flair}: {round(statistics.mean(self.ahole_count[flair]['num_comments_list']), 2)}"
             )
         print()
 
