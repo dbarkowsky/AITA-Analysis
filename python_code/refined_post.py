@@ -1,4 +1,5 @@
 import re
+import statistics
 
 
 class Refined_Post:
@@ -22,7 +23,7 @@ class Refined_Post:
             self.num_identifiers = None
             self.age = None
             self.gender = None
-            self.same_different_gender = None
+            self.same_gender = None
             self.identifier_age_avg = None
         else:
             # If > 13, this row is already refined
@@ -43,6 +44,8 @@ class Refined_Post:
                 self.num_identifiers = row[13]
                 self.age = row[14]
                 self.gender = row[15]
+                self.same_gender = row[16]
+                self.identifier_age_avg = row[17]
             else:
                 self.author = row[0]
                 self.created = row[1]
@@ -62,6 +65,8 @@ class Refined_Post:
 
                 identifiers = self.getIdentifiers()
                 self.num_identifiers = len(identifiers)
+                self.same_gender = self.isSameGender()
+                self.identifier_age_avg = self.getParticipantAgeAvg()
 
                 ageGender = self.getPosterAgeGender()
                 self.age = ageGender["age"]
@@ -101,6 +106,33 @@ class Refined_Post:
             return max(ages) - min(ages)
         else:
             return "_"
+
+    # Gets average age of detected participants
+    def getParticipantAgeAvg(self):
+        identifiers = self.getIdentifiers()
+        # This only really matters if we have more than 1
+        if len(identifiers) < 2:
+            return "_"
+        ages = []
+        for participant in identifiers:
+            age = re.search(r"\d{2}", participant)
+            ages.append(int(age.group(0)))
+
+        return statistics.mean(ages)
+
+    # Sees if the gender of all participants is the same
+    def isSameGender(self):
+        identifiers = self.getIdentifiers()
+        # This only really matters if we have more than 1
+        if len(identifiers) < 2:
+            return "_"
+        for index, participant in enumerate(identifiers, start=1):
+            gender = re.search(r"[MF]", participant, re.IGNORECASE)
+            if not re.match(
+                f"{gender.group(0)}", identifiers[index - 1], re.IGNORECASE
+            ):
+                return False
+        return True
 
     # Tries to determine if the poster is male (M) or female (F)
     # Also tries to get their age
@@ -143,6 +175,8 @@ class Refined_Post:
                     str(self.num_identifiers),
                     str(self.age),
                     self.gender,
+                    str(self.same_gender),
+                    str(self.identifier_age_avg),
                 ]
             )
             + "\n"
@@ -169,6 +203,8 @@ class Refined_Post:
                     "NumParticipants",
                     "Age",
                     "Gender",
+                    "SameGender",
+                    "ParticipantAvgAge",
                 ]
             )
             + "\n"
