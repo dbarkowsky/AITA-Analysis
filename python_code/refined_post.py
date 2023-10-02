@@ -22,29 +22,41 @@ class Refined_Post:
             self.num_identifiers = None
             self.age = None
             self.gender = None
+            self.same_different_gender = None
+            self.identifier_age_avg = None
         else:
-            self.author = row[0]
-            self.created = row[1]
-            self.flair = row[2]
-            self.title = row[3]
-            self.text = row[4]
-            self.score = row[5]
-            self.edited = row[6]
-            self.locked = row[7]
-            self.num_comments = row[8]
-            self.num_awards = row[9]
-            self.ups = row[10]
-            self.downs = row[11]
-            self.ratio = row[12]
-            # Calculated fields
-            # If > 13, these fields are already in row
+            # If > 13, this row is already refined
             if len(row) > 13:
-                self.age_range = row[13]
-                self.is_romantic = row[14]
-                self.num_identifiers = row[15]
-                self.age = row[16]
-                self.gender = row[17]
+                self.author = row[0]
+                self.created = row[1]
+                self.flair = row[2]
+                self.score = row[3]
+                self.edited = row[4]
+                self.locked = row[5]
+                self.num_comments = row[6]
+                self.num_awards = row[7]
+                self.ups = row[8]
+                self.downs = row[9]
+                self.ratio = row[10]
+                self.age_range = row[11]
+                self.is_romantic = row[12]
+                self.num_identifiers = row[13]
+                self.age = row[14]
+                self.gender = row[15]
             else:
+                self.author = row[0]
+                self.created = row[1]
+                self.flair = row[2]
+                self.title = row[3]
+                self.text = row[4]
+                self.score = row[5]
+                self.edited = row[6]
+                self.locked = row[7]
+                self.num_comments = row[8]
+                self.num_awards = row[9]
+                self.ups = row[10]
+                self.downs = row[11]
+                self.ratio = row[12]
                 self.age_range = self.getAgeRange()
                 self.is_romantic = self.isRomantic()
 

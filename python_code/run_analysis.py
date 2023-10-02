@@ -23,27 +23,7 @@
 
 import csv
 from stats_bundler import StatsBundler
-
-
-class Combined_Row:
-    def __init__(self, row):
-        self.author = row[0]
-        self.created = row[1]
-        self.edited = row[4]
-        self.flair = row[2]
-        self.locked = row[5]
-        self.num_comments = row[6]
-        self.score = row[3]
-        self.num_awards = row[7]
-        self.ups = row[8]
-        self.downs = row[9]
-        self.ratio = row[10]
-        self.age_range = row[11]
-        self.is_romantic = row[12]
-        self.num_identifiers = row[13]
-        self.age = row[14]
-        self.gender = row[15]
-
+from refined_post import Refined_Post
 
 stats = StatsBundler()
 
@@ -52,28 +32,28 @@ with open(f"./combined_posts.csv", "r", encoding="utf-8") as file:
     # Skip first line (header)
     reader.__next__()
     for x in reader:
-        row = Combined_Row(x)
+        post = Refined_Post(x)
         # Count how many times they've posted
-        stats.increment_poster(row.author)
+        stats.increment_poster(post.author)
         # Count number of each flair
-        stats.increment_flair(row.flair)
+        stats.increment_flair(post.flair)
         # Sum of score for each flair
-        stats.append_score(row.flair, row.score)
+        stats.append_score(post.flair, post.score)
         # Count genders per flair
-        stats.increment_gender(row.flair, row.gender)
+        stats.increment_gender(post.flair, post.gender)
         # Count if edited (will be a number representing date, otherwise False string)
-        if row.edited != "False":
-            stats.increment_edited(row.flair)
+        if post.edited != "False":
+            stats.increment_edited(post.flair)
         # Count that age
-        if str(row.age).isdigit():
-            stats.increment_age_chunk(row.flair, row.age)
-            stats.increment_age(row.flair, row.age)
+        if str(post.age).isdigit():
+            stats.increment_age_chunk(post.flair, post.age)
+            stats.increment_age(post.flair, post.age)
         # Count age ranges
-        if str(row.age_range).isdigit():
-            stats.increment_age_range(row.flair, row.age_range)
+        if str(post.age_range).isdigit():
+            stats.increment_age_range(post.flair, post.age_range)
         # Count if romantic
-        if row.is_romantic == "True":
-            stats.increment_romantic(row.flair)
+        if post.is_romantic == "True":
+            stats.increment_romantic(post.flair)
 
 # Find top 10 (11 including deleted) posters
 stats.top_10_posters()
