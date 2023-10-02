@@ -75,14 +75,14 @@ with open(f"./combined_posts.csv", "r", encoding="utf-8") as file:
         if row.is_romantic == "True":
             stats.increment_romantic(row.flair)
 
-    # Find top 10 (11 including deleted) posters
-    stats.top_10_posters()
+# Find top 10 (11 including deleted) posters
+stats.top_10_posters()
 
-    # How many of each flair?
-    stats.flair_totals()
-    # Median and Mean of each flair
-    stats.flair_medians()
-    stats.flair_means()
+# How many of each flair?
+stats.flair_totals()
+# Median and Mean of each flair
+stats.flair_medians()
+stats.flair_means()
 
-    # Print A-hole count
-    stats.pretty_print_ahole_count()
+# Print A-hole count
+stats.pretty_print_ahole_count()
