@@ -17,6 +17,11 @@ class Refined_Post:
             self.num_awards = None
             self.ups = None
             self.ratio = None
+            self.age_range = None
+            self.is_romantic = None
+            self.num_identifiers = None
+            self.age = None
+            self.gender = None
         else:
             self.author = row[0]
             self.created = row[1]
@@ -31,6 +36,24 @@ class Refined_Post:
             self.ups = row[10]
             self.downs = row[11]
             self.ratio = row[12]
+            # Calculated fields
+            # If > 13, these fields are already in row
+            if len(row) > 13:
+                self.age_range = row[13]
+                self.is_romantic = row[14]
+                self.num_identifiers = row[15]
+                self.age = row[16]
+                self.gender = row[17]
+            else:
+                self.age_range = self.getAgeRange()
+                self.is_romantic = self.isRomantic()
+
+                identifiers = self.getIdentifiers()
+                self.num_identifiers = len(identifiers)
+
+                ageGender = self.getPosterAgeGender()
+                self.age = ageGender["age"]
+                self.gender = ageGender["gender"]
 
     # Returns true if a word suggesting a romantic relationship is found
     def isRomantic(self) -> bool:
@@ -86,3 +109,55 @@ class Refined_Post:
             result["gender"] = "_"
         finally:
             return result
+
+    # Prints out a row with all data
+    def getRow(self) -> str:
+        return (
+            ",".join(
+                [
+                    self.author,
+                    self.created,
+                    self.flair,
+                    self.score,
+                    self.edited,
+                    self.locked,
+                    self.num_comments,
+                    self.num_awards,
+                    self.ups,
+                    self.downs,
+                    self.ratio,
+                    str(self.age_range),
+                    str(self.is_romantic),
+                    str(self.num_identifiers),
+                    str(self.age),
+                    self.gender,
+                ]
+            )
+            + "\n"
+        )
+
+    @staticmethod
+    def getHeader() -> str:
+        return (
+            ",".join(
+                [
+                    "Author",
+                    "Created",
+                    "Flair",
+                    "Score",
+                    "Edited",
+                    "Locked",
+                    "NumComments",
+                    "NumAwards",
+                    "Ups",
+                    "Downs",
+                    "Ratio",
+                    "AgeRange",
+                    "IsRomantic",
+                    "NumParticipants",
+                    "Age",
+                    "Gender",
+                ]
+            )
+            + "\n"
+        )
