@@ -1,29 +1,7 @@
-# Questions to ask
-# 1. Are there frequent posters? Top 5? 10?
-# 3. What are the totals of each flair?
-# 4a. More likely to be the a-hole if edited?
-# 4b. Or are people editing their posts if flaired a-holes?
-# 6. More likely to be a-hole if high comments? -> shows engagement
-# 7a. Are the a-holes more upvoted?
-# 7b. Are they getting more votes in general?
-# 8. Is it more likely to be the a-hole if the age range is large? (original question)
-# 9. More likely to be a-hole if possibly romantic issue?
-# 10. More likely to be a-hole based on num of participants? 2, 3, 4+
-# 11. More likely to be a-hole based on age range? <18, 19-25, 26-40, 41+
-# 12. More likely to be a-hole based on gender?
-# 13. If only 2 participants, compare same vs different gender. For M and F.
-
-# Questions that might be out...
-# 2a. Most like to be the a-hole if posted at certain times of day? Morning, Afternoon, Evening, Night?
-# 2b. Maybe can't tell that considering that we don't know their timezones.
-# 5. More likely to be locked if a-hole?
-# 5a. Too few locked posts to tell...
-# 7c. Do a-holes get downvoted more (despite not the intent of the downvote)?
-# 7d. Seems like downvotes don't get captured
-
 import csv
 from stats_bundler import StatsBundler
 from refined_post import Refined_Post
+from chart_builder import ChartBuilder
 
 stats = StatsBundler()
 
@@ -70,10 +48,48 @@ stats.top_10_posters()
 stats.flair_totals()
 # Median and Mean of each flair
 stats.flair_medians()
-stats.flair_means()
+flair_means = stats.flair_means()
 
 # Mean of comments counts
-stats.comments_means()
+comment_means = stats.comments_means()
 
 # Print A-hole count
 # stats.pretty_print_ahole_count()
+
+# Chart Building
+
+# Count posts per Flair
+ChartBuilder.bar(
+    chart_title="Count of Post by Flair",
+    series_titles=list(stats.ahole_count.keys()),
+    series_data=[
+        stats.ahole_count["Not the A-hole"]["count"],
+        stats.ahole_count["Asshole"]["count"],
+        stats.ahole_count["No A-holes here"]["count"],
+        stats.ahole_count["Everyone Sucks"]["count"],
+    ],
+)
+
+# Average Score per Flair
+ChartBuilder.bar(
+    chart_title="Average Post Score per Flair",
+    series_titles=list(stats.ahole_count.keys()),
+    series_data=[
+        flair_means["Not the A-hole"],
+        flair_means["Asshole"],
+        flair_means["No A-holes here"],
+        flair_means["Everyone Sucks"],
+    ],
+)
+
+# Average Number of Comments per Flair
+ChartBuilder.bar(
+    chart_title="Average Number of Comments per Flair",
+    series_titles=list(stats.ahole_count.keys()),
+    series_data=[
+        comment_means["Not the A-hole"],
+        comment_means["Asshole"],
+        comment_means["No A-holes here"],
+        comment_means["Everyone Sucks"],
+    ],
+)

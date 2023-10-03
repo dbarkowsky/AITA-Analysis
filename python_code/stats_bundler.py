@@ -116,6 +116,20 @@ class StatsBundler:
                 f"{flair}: {round(statistics.mean(self.ahole_count[flair]['score_list']), 2)}"
             )
         print()
+        return {
+            "Not the A-hole": round(
+                statistics.mean(self.ahole_count["Not the A-hole"]["score_list"]), 2
+            ),
+            "Asshole": round(
+                statistics.mean(self.ahole_count["Asshole"]["score_list"]), 2
+            ),
+            "No A-holes here": round(
+                statistics.mean(self.ahole_count["No A-holes here"]["score_list"]), 2
+            ),
+            "Everyone Sucks": round(
+                statistics.mean(self.ahole_count["Everyone Sucks"]["score_list"]), 2
+            ),
+        }
 
     def comments_means(self):
         print("Mean Number of Comments per Flair:")
@@ -124,6 +138,29 @@ class StatsBundler:
                 f"{flair}: {round(statistics.mean(self.ahole_count[flair]['num_comments_list']), 2)}"
             )
         print()
+        return {
+            "Not the A-hole": round(
+                statistics.mean(
+                    self.ahole_count["Not the A-hole"]["num_comments_list"]
+                ),
+                2,
+            ),
+            "Asshole": round(
+                statistics.mean(self.ahole_count["Asshole"]["num_comments_list"]), 2
+            ),
+            "No A-holes here": round(
+                statistics.mean(
+                    self.ahole_count["No A-holes here"]["num_comments_list"]
+                ),
+                2,
+            ),
+            "Everyone Sucks": round(
+                statistics.mean(
+                    self.ahole_count["Everyone Sucks"]["num_comments_list"]
+                ),
+                2,
+            ),
+        }
 
     # Utilities
     def pretty_print_ahole_count(self):
