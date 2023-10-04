@@ -93,3 +93,38 @@ ChartBuilder.bar(
         comment_means["Everyone Sucks"],
     ],
 )
+
+
+def dictValuesToTuple(dict):
+    return [(val) for val in dict.values()]
+
+
+def filterKeysLessThan(dict, value):
+    return {k: v for k, v in dict.items() if int(k) <= value}
+
+
+# Age Range Per Flair
+age_cutoff = 50
+age_range_data = [
+    dictValuesToTuple(
+        filterKeysLessThan(stats.ahole_count["Not the A-hole"]["age_range"], age_cutoff)
+    ),
+    dictValuesToTuple(
+        filterKeysLessThan(stats.ahole_count["Asshole"]["age_range"], age_cutoff)
+    ),
+    dictValuesToTuple(
+        filterKeysLessThan(
+            stats.ahole_count["No A-holes here"]["age_range"], age_cutoff
+        )
+    ),
+    dictValuesToTuple(
+        filterKeysLessThan(stats.ahole_count["Everyone Sucks"]["age_range"], age_cutoff)
+    ),
+]
+ChartBuilder.pyramid(
+    chart_title="Count of Age Range per Flair",
+    series_data=age_range_data,
+    series_titles=list(stats.ahole_count.keys()),
+    x_labels=map(str, range(age_cutoff + 1)),
+    y_title="Age Difference (Years)",
+)

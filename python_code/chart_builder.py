@@ -4,11 +4,22 @@ from pygal.style import LightSolarizedStyle
 
 class ChartBuilder:
     @staticmethod
-    def pyramid(*, chart_title, series_titles, series_data, style=LightSolarizedStyle):
+    def pyramid(
+        *,
+        chart_title,
+        series_titles,
+        series_data,
+        y_title,
+        style=LightSolarizedStyle,
+        x_labels=None,
+    ):
         pyramid_chart = pygal.Pyramid(
             human_readable=True, legend_at_bottom=True, style=style
         )
         pyramid_chart.title = chart_title
+        pyramid_chart.y_title = y_title
+        if x_labels != None:
+            pyramid_chart.x_labels = x_labels
         for title, data in zip(series_titles, series_data):
             pyramid_chart.add(title, data)
         pyramid_chart.render_to_file(f"charts/{str(chart_title).replace(' ', '')}.svg")
@@ -24,7 +35,14 @@ class ChartBuilder:
         horz_bar.render_to_file(f"charts/{str(chart_title).replace(' ', '')}.svg")
 
     @staticmethod
-    def bar(*, chart_title, series_titles, series_data, style=LightSolarizedStyle):
+    def bar(
+        *,
+        chart_title,
+        series_titles,
+        series_data,
+        style=LightSolarizedStyle,
+        x_labels=None,
+    ):
         bar = pygal.Bar(
             title=chart_title,
             human_readable=True,
@@ -32,6 +50,8 @@ class ChartBuilder:
             legend_at_bottom=True,
             legend_at_bottom_columns=4,
         )
+        if x_labels != None:
+            bar.x_labels = x_labels
         for title, data in zip(series_titles, series_data):
             bar.add(title, data)
         bar.render_to_file(f"charts/{str(chart_title).replace(' ', '')}.svg")
