@@ -38,6 +38,9 @@ with open(f"./combined_posts.csv", "r", encoding="utf-8") as file:
         # Count if romantic
         if post.is_romantic == "True":
             stats.increment_romantic(post.flair)
+        # K Question
+        if post.is_romantic == "True" and post.is_oldest == "True":
+            stats.increment_k_question(post.flair, post.age_range)
         # Add number of comments to list
         stats.append_comments_count(post.flair, post.num_comments)
 
@@ -55,6 +58,7 @@ comment_means = stats.comments_means()
 
 # Print A-hole count
 # stats.pretty_print_ahole_count()
+stats.age_object_to_percentages("k_question")
 
 # Chart Building
 

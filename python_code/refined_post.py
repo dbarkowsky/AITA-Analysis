@@ -25,6 +25,7 @@ class Refined_Post:
             self.gender = None
             self.same_gender = None
             self.identifier_age_avg = None
+            self.is_oldest = None
         else:
             # If > 13, this row is already refined
             if len(row) > 13:
@@ -46,6 +47,7 @@ class Refined_Post:
                 self.gender = row[15]
                 self.same_gender = row[16]
                 self.identifier_age_avg = row[17]
+                self.is_oldest = row[18]
             else:
                 self.author = row[0]
                 self.created = row[1]
@@ -71,6 +73,7 @@ class Refined_Post:
                 ageGender = self.getPosterAgeGender()
                 self.age = ageGender["age"]
                 self.gender = ageGender["gender"]
+                self.is_oldest = self.isOldest()
 
     # Returns true if a word suggesting a romantic relationship is found
     def isRomantic(self) -> bool:
@@ -107,16 +110,20 @@ class Refined_Post:
         else:
             return "_"
 
-    # Gets average age of detected participants, rounded
-    def getParticipantAgeAvg(self):
+    def getParticipantsAges(self):
         identifiers = self.getIdentifiers()
-        # This only really matters if we have more than 1
-        if len(identifiers) < 2:
-            return "_"
         ages = []
         for participant in identifiers:
             age = re.search(r"\d{2}", participant)
             ages.append(int(age.group(0)))
+        return ages
+
+    # Gets average age of detected participants, rounded
+    def getParticipantAgeAvg(self):
+        ages = self.getParticipantsAges()
+        # This only really matters if we have more than 1
+        if len(ages) < 2:
+            return "_"
 
         return round(statistics.mean(ages))
 
@@ -154,6 +161,17 @@ class Refined_Post:
         finally:
             return result
 
+    # Decides if the poster is the oldest among participants
+    def isOldest(self) -> bool:
+        poster = self.getPosterAgeGender()
+        ages = list(map(int, self.getParticipantsAges()))
+        if len(ages) < 2 or poster["age"] == "_":
+            return "_"
+
+        if max(ages) == int(poster["age"]):
+            return True
+        return False
+
     # Prints out a row with all data
     def getRow(self) -> str:
         return (
@@ -177,6 +195,7 @@ class Refined_Post:
                     self.gender,
                     str(self.same_gender),
                     str(self.identifier_age_avg),
+                    str(self.is_oldest),
                 ]
             )
             + "\n"
@@ -205,6 +224,7 @@ class Refined_Post:
                     "Gender",
                     "SameGender",
                     "ParticipantAvgAge",
+                    "IsOldest",
                 ]
             )
             + "\n"

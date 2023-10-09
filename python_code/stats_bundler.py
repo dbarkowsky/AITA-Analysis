@@ -17,6 +17,7 @@ class StatsBundler:
             "avg_age": {},  # count avg age between all participants in one post
             "romantic": 0,
             "num_comments_list": [],
+            "k_question": {},  # count of age range where also romantic and poster is oldest
         }
         self.frequent_posters = dict()
         self.ahole_count = {
@@ -83,6 +84,11 @@ class StatsBundler:
 
     def append_comments_count(self, flair, comments_count):
         self.ahole_count[flair]["num_comments_list"].append(int(comments_count))
+
+    def increment_k_question(self, flair, range):
+        self.ahole_count[flair]["k_question"][str(range)] = (
+            self.ahole_count[flair]["k_question"].get(str(range), 0) + 1
+        )
 
     # Calculations
     def top_10_posters(self):
@@ -165,3 +171,49 @@ class StatsBundler:
     # Utilities
     def pretty_print_ahole_count(self):
         print(json.dumps(self.ahole_count, sort_keys=True, indent=2))
+
+    def print_k_question(self):
+        for flair in self.ahole_count.keys():
+            print(f"{flair}:")
+            print(
+                json.dumps(
+                    self.ahole_count[flair]["k_question"],
+                    sort_keys=True,
+                    indent=2,
+                )
+            )
+
+    def make_percentage(self, part, total):
+        return part / total
+
+    # Takes a dict that uses ages as keys and normalizes each value as a percentage of that age's total count
+    def age_object_to_percentages(self, key):
+        standardized_age_object = {}
+        flairs = self.ahole_count.keys()
+        # Make dict that just has totals for each age
+        dict_age_totals = self.get_age_totals(key)
+        # For each flair group
+        for flair in flairs:
+            standardized_age_object[flair] = {}
+            # Go through each noted age in dict_age_totals
+            for age in dict_age_totals.keys():
+                standardized_age_object[flair][str(age)] = round(
+                    self.ahole_count[flair][key].get(str(age), 0)
+                    / dict_age_totals[str(age)],
+                    2,
+                )
+        return standardized_age_object
+
+    # Totals the counts in any age-based dict
+    def get_age_totals(self, key):
+        flairs = self.ahole_count.keys()
+        dict_age_totals = {}
+        # For each flair
+        for flair in flairs:
+            # For each key (age) in that flair's key age object
+            for age in self.ahole_count[flair][key].keys():
+                # Add that value to dict_age_totals
+                dict_age_totals[str(age)] = (
+                    dict_age_totals.get(str(age), 0) + self.ahole_count[flair][key][age]
+                )
+        return dict_age_totals

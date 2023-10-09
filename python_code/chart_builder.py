@@ -20,6 +20,7 @@ class ChartBuilder:
         pyramid_chart.y_title = y_title
         if x_labels != None:
             pyramid_chart.x_labels = x_labels
+        # pyramid_chart.show_x_labels = False
         for title, data in zip(series_titles, series_data):
             pyramid_chart.add(title, data)
         pyramid_chart.render_to_file(f"charts/{str(chart_title).replace(' ', '')}.svg")
