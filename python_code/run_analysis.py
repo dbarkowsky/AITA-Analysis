@@ -103,32 +103,43 @@ def dictValuesToTuple(dict):
     return [(val) for val in dict.values()]
 
 
+def dictKeyValueToTuple(dict):
+    result = []
+    for key in dict.keys():
+        result.append((int(key), float(dict[key])))
+    return result
+
+
 def filterKeysLessThan(dict, value):
     return {k: v for k, v in dict.items() if int(k) <= value}
 
 
 # Age Range Per Flair
 age_cutoff = 50
-age_range_data = [
-    dictValuesToTuple(
-        filterKeysLessThan(stats.ahole_count["Not the A-hole"]["age_range"], age_cutoff)
-    ),
-    dictValuesToTuple(
-        filterKeysLessThan(stats.ahole_count["Asshole"]["age_range"], age_cutoff)
-    ),
-    dictValuesToTuple(
-        filterKeysLessThan(
-            stats.ahole_count["No A-holes here"]["age_range"], age_cutoff
+age_range_data = []
+for flair in stats.ahole_count.keys():
+    age_range_data.append(
+        dictValuesToTuple(
+            filterKeysLessThan(stats.ahole_count[flair]["age_range"], age_cutoff)
         )
-    ),
-    dictValuesToTuple(
-        filterKeysLessThan(stats.ahole_count["Everyone Sucks"]["age_range"], age_cutoff)
-    ),
-]
+    )
 ChartBuilder.pyramid(
-    chart_title="Count of Age Range per Flair",
+    chart_title="Count of Age Difference per Flair",
     series_data=age_range_data,
     series_titles=list(stats.ahole_count.keys()),
     x_labels=map(str, range(age_cutoff + 1)),
     y_title="Age Difference (Years)",
+)
+
+# Scatterplot for K Question
+k_question_data = []
+for flair in stats.ahole_count.keys():
+    k_question_data.append(
+        dictKeyValueToTuple(stats.age_object_to_percentages("k_question")[flair])
+    )
+ChartBuilder.scatterplot(
+    chart_title="Likelyhood of Asshole if Romantic and Older by Age Difference",
+    series_data=k_question_data,
+    series_titles=["Not the A-hole", "Asshole"],
+    x_title="Age Difference Between Participants",
 )

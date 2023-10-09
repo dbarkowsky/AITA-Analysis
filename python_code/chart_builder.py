@@ -56,3 +56,22 @@ class ChartBuilder:
         for title, data in zip(series_titles, series_data):
             bar.add(title, data)
         bar.render_to_file(f"charts/{str(chart_title).replace(' ', '')}.svg")
+
+    @staticmethod
+    def scatterplot(
+        *,
+        chart_title,
+        series_titles,
+        series_data,
+        style=LightSolarizedStyle,
+        x_title=None,
+    ):
+        scatter = pygal.XY(
+            stroke=False, title=chart_title, style=style, legend_at_bottom=True
+        )
+        scatter.title = chart_title
+        if x_title != None:
+            scatter.x_title = x_title
+        for title, data in zip(series_titles, series_data):
+            scatter.add(title, data)
+        scatter.render_to_file(f"charts/{str(chart_title).replace(' ', '')}.svg")

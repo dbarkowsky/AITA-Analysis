@@ -197,11 +197,13 @@ class StatsBundler:
             standardized_age_object[flair] = {}
             # Go through each noted age in dict_age_totals
             for age in dict_age_totals.keys():
-                standardized_age_object[flair][str(age)] = round(
-                    self.ahole_count[flair][key].get(str(age), 0)
-                    / dict_age_totals[str(age)],
-                    2,
-                )
+                # Remove instances where there is only 1 example
+                if int(dict_age_totals[str(age)]) > 1:
+                    standardized_age_object[flair][str(age)] = round(
+                        self.ahole_count[flair][key].get(str(age), 0)
+                        / dict_age_totals[str(age)],
+                        2,
+                    )
         return standardized_age_object
 
     # Totals the counts in any age-based dict
