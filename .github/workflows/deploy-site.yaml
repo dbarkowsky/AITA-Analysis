@@ -23,7 +23,6 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
-    working-directory: ./aita-project-site
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -38,8 +37,10 @@ jobs:
           node-version: 18
           cache: "npm"
       - name: Install dependencies
+        working-directory: ./aita-project-site
         run: npm install
       - name: Build
+        working-directory: ./aita-project-site
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v3
@@ -47,7 +48,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload dist repository
-          path: "./dist"
+          path: "./aita-project-site/dist"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
