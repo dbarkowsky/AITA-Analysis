@@ -36,6 +36,7 @@ jobs:
         with:
           node-version: 18
           cache: "npm"
+          path: "./aita-project-site"
       - name: Install dependencies
         working-directory: ./aita-project-site
         run: npm install
