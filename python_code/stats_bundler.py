@@ -169,6 +169,37 @@ class StatsBundler:
             ),
         }
 
+    def comments_medians(self):
+        print("Mean Number of Comments per Flair:")
+        for flair in self.ahole_count.keys():
+            print(
+                f"{flair}: {round(statistics.median(self.ahole_count[flair]['num_comments_list']), 2)}"
+            )
+        print()
+        return {
+            "Not the A-hole": round(
+                statistics.median(
+                    self.ahole_count["Not the A-hole"]["num_comments_list"]
+                ),
+                2,
+            ),
+            "Asshole": round(
+                statistics.median(self.ahole_count["Asshole"]["num_comments_list"]), 2
+            ),
+            "No A-holes here": round(
+                statistics.median(
+                    self.ahole_count["No A-holes here"]["num_comments_list"]
+                ),
+                2,
+            ),
+            "Everyone Sucks": round(
+                statistics.median(
+                    self.ahole_count["Everyone Sucks"]["num_comments_list"]
+                ),
+                2,
+            ),
+        }
+
     # Utilities
     def pretty_print_ahole_count(self):
         print(json.dumps(self.ahole_count, sort_keys=True, indent=2))

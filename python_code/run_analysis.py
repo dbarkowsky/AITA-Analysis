@@ -74,6 +74,8 @@ flair_means = stats.flair_means()
 
 # Mean of comments counts
 comment_means = stats.comments_means()
+# Median of comments
+comment_medians = stats.comments_medians()
 
 # Chart Building
 # Count posts per Flair
@@ -218,7 +220,7 @@ for flair in stats.ahole_count.keys():
         dictKeyValueToTuple(stats.age_object_to_percentages("age")[flair])
     )
 ChartBuilder.scatterplot(
-    chart_title="Likelihood of Asshole by Age",
+    chart_title="Likelihood of Asshole by Age of Poster",
     series_data=percentage_age_data,
     series_titles=["Not the A-hole", "Asshole"],
     x_title="Age of Poster",
