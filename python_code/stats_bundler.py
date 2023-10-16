@@ -100,6 +100,7 @@ class StatsBundler:
         for poster in top_10:
             print(f"{poster}: {self.frequent_posters[poster]}")
         print()
+        return top_10
 
     def flair_totals(self):
         print("Total of each Flair:")
@@ -187,6 +188,7 @@ class StatsBundler:
         return part / total
 
     # Takes a dict that uses ages as keys and normalizes each value as a percentage of that age's total count
+    # Returns a dict with flairs as keys and dicts of ages with percentages as values
     def age_object_to_percentages(self, key):
         standardized_age_object = {}
         flairs = self.ahole_count.keys()

@@ -44,8 +44,27 @@ with open(f"./combined_posts.csv", "r", encoding="utf-8") as file:
         # Add number of comments to list
         stats.append_comments_count(post.flair, post.num_comments)
 
-# Find top 10 (11 including deleted) posters
-stats.top_10_posters()
+
+# Make sure all age dicts are sorted by key's numerical value
+# Takes (key, value) pair and returns key as int
+def sortAsInt(keyValuePair):
+    return int(keyValuePair[0])
+
+
+for flair in stats.ahole_count.keys():
+    stats.ahole_count[flair]["age"] = dict(
+        sorted(stats.ahole_count[flair]["age"].items(), key=sortAsInt)
+    )
+    stats.ahole_count[flair]["avg_age"] = dict(
+        sorted(stats.ahole_count[flair]["avg_age"].items(), key=sortAsInt)
+    )
+    stats.ahole_count[flair]["age_range"] = dict(
+        sorted(stats.ahole_count[flair]["age_range"].items(), key=sortAsInt)
+    )
+    stats.ahole_count[flair]["k_question"] = dict(
+        sorted(stats.ahole_count[flair]["k_question"].items(), key=sortAsInt)
+    )
+
 
 # How many of each flair?
 stats.flair_totals()
@@ -56,12 +75,7 @@ flair_means = stats.flair_means()
 # Mean of comments counts
 comment_means = stats.comments_means()
 
-# Print A-hole count
-# stats.pretty_print_ahole_count()
-stats.age_object_to_percentages("k_question")
-
 # Chart Building
-
 # Count posts per Flair
 ChartBuilder.bar(
     chart_title="Count of Post by Flair",
@@ -111,24 +125,61 @@ def dictKeyValueToTuple(dict):
 
 
 def filterKeysLessThan(dict, value):
-    return {k: v for k, v in dict.items() if int(k) <= value}
+    return {k: v for k, v in dict.items() if int(k) < value}
 
 
-# Age Range Per Flair
+# Age Gap/Range Per Flair
 age_cutoff = 50
-age_range_data = []
+age_difference_data = []
 for flair in stats.ahole_count.keys():
-    age_range_data.append(
+    age_difference_data.append(
         dictValuesToTuple(
             filterKeysLessThan(stats.ahole_count[flair]["age_range"], age_cutoff)
         )
     )
 ChartBuilder.pyramid(
     chart_title="Count of Age Difference per Flair",
-    series_data=age_range_data,
+    series_data=age_difference_data,
     series_titles=list(stats.ahole_count.keys()),
     x_labels=map(str, range(age_cutoff + 1)),
     y_title="Age Difference (Years)",
+)
+
+# Scatterplot to show likelihood of asshole based on age gap
+# Seemingly consistent
+percentage_age_difference_data = []
+for flair in stats.ahole_count.keys():
+    percentage_age_difference_data.append(
+        dictKeyValueToTuple(stats.age_object_to_percentages("age_range")[flair])
+    )
+ChartBuilder.scatterplot(
+    chart_title="Likelihood of Asshole by Age Gap",
+    series_data=percentage_age_difference_data,
+    series_titles=["Not the A-hole", "Asshole"],
+    x_title="Age Gap between Poster and Other Participant",
+)
+
+# Bar chart for Age Bracket/Range per Flair
+age_range_data = []
+for flair in stats.ahole_count.keys():
+    age_range_data.append(dictValuesToTuple(stats.ahole_count[flair]["age_chunk"]))
+ChartBuilder.bar(
+    chart_title="Count of Posts per Age Bracket per Flair",
+    series_titles=list(stats.ahole_count.keys()),
+    series_data=age_range_data,
+    x_labels=list(stats.ahole_count["Asshole"]["age_chunk"].keys()),
+)
+# Stacked Bar for Ratio of the Same thing
+normalized_age_range_data = []
+for flair in stats.ahole_count.keys():
+    normalized_age_range_data.append(
+        dictValuesToTuple(stats.age_object_to_percentages("age_chunk")[flair])
+    )
+ChartBuilder.stacked_bar(
+    chart_title="Ratio of Posts per Age Bracket per Flair",
+    series_titles=list(stats.ahole_count.keys()),
+    series_data=normalized_age_range_data,
+    x_labels=list(stats.ahole_count["Asshole"]["age_chunk"].keys()),
 )
 
 # Scatterplot for K Question
@@ -138,8 +189,110 @@ for flair in stats.ahole_count.keys():
         dictKeyValueToTuple(stats.age_object_to_percentages("k_question")[flair])
     )
 ChartBuilder.scatterplot(
-    chart_title="Likelyhood of Asshole if Romantic and Older by Age Difference",
+    chart_title="Likelihood of Asshole if Romantic and Older by Age Difference",
     series_data=k_question_data,
     series_titles=["Not the A-hole", "Asshole"],
     x_title="Age Difference Between Participants",
+)
+
+# Bar for Age of Posters
+age_cutoff = 60
+age_data = []
+for flair in stats.ahole_count.keys():
+    age_data.append(
+        dictValuesToTuple(
+            filterKeysLessThan(stats.ahole_count[flair]["age"], age_cutoff)
+        )
+    )
+ChartBuilder.stacked_bar(
+    chart_title="Count of Age of Posters",
+    series_data=age_data,
+    series_titles=list(stats.ahole_count.keys()),
+    x_labels=map(str, range(13, age_cutoff + 1)),
+)
+
+# Scatterplot - Likelihood by Age of Poster
+percentage_age_data = []
+for flair in stats.ahole_count.keys():
+    percentage_age_data.append(
+        dictKeyValueToTuple(stats.age_object_to_percentages("age")[flair])
+    )
+ChartBuilder.scatterplot(
+    chart_title="Likelihood of Asshole by Age",
+    series_data=percentage_age_data,
+    series_titles=["Not the A-hole", "Asshole"],
+    x_title="Age of Poster",
+)
+
+# Stacked Bar for Romantic
+romantic_data = []
+for flair in stats.ahole_count.keys():
+    romantic_data.append(
+        (
+            stats.ahole_count[flair]["romantic"],
+            (stats.ahole_count[flair]["count"] - stats.ahole_count[flair]["romantic"]),
+        )
+    )
+ChartBuilder.bar(
+    chart_title="Distribution of Flairs by Romantic Status",
+    series_titles=list(stats.ahole_count.keys()),
+    series_data=romantic_data,
+    x_labels=["Romantic", "Not Romantic"],
+)
+
+# Stacked Bar for Edited
+edited_data = []
+for flair in stats.ahole_count.keys():
+    edited_data.append(
+        (
+            stats.ahole_count[flair]["edited"],
+            (stats.ahole_count[flair]["count"] - stats.ahole_count[flair]["edited"]),
+        )
+    )
+ChartBuilder.bar(
+    chart_title="Distribution of Flairs by Edited Status",
+    series_titles=list(stats.ahole_count.keys()),
+    series_data=edited_data,
+    x_labels=["Edited", "Not Edited"],
+)
+
+# Top 10 posters -> horizontal bar
+# Find top 10 (11 including deleted) posters
+top_10 = stats.top_10_posters()
+top_10_data = []
+for user in top_10:
+    top_10_data.append(stats.frequent_posters[user])
+ChartBuilder.horizontal_bar(
+    chart_title="Top 10 Most Frequent Posters",
+    series_titles=top_10,
+    series_data=top_10_data,
+)
+
+
+# Bar Chart showing gender distribution per flair
+gender_data = []
+for flair in stats.ahole_count.keys():
+    gender_data.append(dictValuesToTuple(stats.ahole_count[flair]["gender"]))
+ChartBuilder.bar(
+    chart_title="Gender Trends by Count",
+    series_data=gender_data,
+    series_titles=list(stats.ahole_count.keys()),
+    x_labels=["Male", "Female", "Same Gender", "Different Gender"],
+)
+# Stacked Bar for Ratio of the Same thing
+normalized_gender_data = []
+for flair in stats.ahole_count.keys():
+    normalized_gender_data.append(
+        [
+            stats.ahole_count[flair]["gender"]["M"],
+            stats.ahole_count[flair]["gender"]["F"],
+            stats.ahole_count[flair]["gender"]["same"],
+            stats.ahole_count[flair]["gender"]["different"],
+        ]
+    )
+ChartBuilder.stacked_bar(
+    chart_title="Gender Trends by Ratio of Posts",
+    series_titles=list(stats.ahole_count.keys()),
+    series_data=normalized_gender_data,
+    x_labels=["Male", "Female", "Same Gender", "Different Gender"],
 )

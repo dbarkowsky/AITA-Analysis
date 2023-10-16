@@ -23,17 +23,27 @@ class ChartBuilder:
         # pyramid_chart.show_x_labels = False
         for title, data in zip(series_titles, series_data):
             pyramid_chart.add(title, data)
-        pyramid_chart.render_to_file(f"charts/{str(chart_title).replace(' ', '')}.svg")
+        pyramid_chart.render_to_file(
+            f"charts/pyramid_{str(chart_title).replace(' ', '')}.svg"
+        )
 
     @staticmethod
     def horizontal_bar(
         *, chart_title, series_titles, series_data, style=LightSolarizedStyle
     ):
-        horz_bar = pygal.HorizontalBar(human_readable=True, style=style)
+        horz_bar = pygal.HorizontalBar(
+            human_readable=True,
+            style=style,
+            print_values=True,
+            print_labels=True,
+            show_legend=False,
+        )
         horz_bar.title = chart_title
         for title, data in zip(series_titles, series_data):
-            horz_bar.add(title, data)
-        horz_bar.render_to_file(f"charts/{str(chart_title).replace(' ', '')}.svg")
+            horz_bar.add(title, [{"value": data, "label": title}])
+        horz_bar.render_to_file(
+            f"charts/horizontal_bar_{str(chart_title).replace(' ', '')}.svg"
+        )
 
     @staticmethod
     def bar(
@@ -55,7 +65,31 @@ class ChartBuilder:
             bar.x_labels = x_labels
         for title, data in zip(series_titles, series_data):
             bar.add(title, data)
-        bar.render_to_file(f"charts/{str(chart_title).replace(' ', '')}.svg")
+        bar.render_to_file(f"charts/bar_{str(chart_title).replace(' ', '')}.svg")
+
+    @staticmethod
+    def stacked_bar(
+        *,
+        chart_title,
+        series_titles,
+        series_data,
+        style=LightSolarizedStyle,
+        x_labels=None,
+    ):
+        bar = pygal.StackedBar(
+            title=chart_title,
+            human_readable=True,
+            style=style,
+            legend_at_bottom=True,
+            legend_at_bottom_columns=4,
+        )
+        if x_labels != None:
+            bar.x_labels = x_labels
+        for title, data in zip(series_titles, series_data):
+            bar.add(title, data)
+        bar.render_to_file(
+            f"charts/stacked_bar_{str(chart_title).replace(' ', '')}.svg"
+        )
 
     @staticmethod
     def scatterplot(
@@ -74,4 +108,23 @@ class ChartBuilder:
             scatter.x_title = x_title
         for title, data in zip(series_titles, series_data):
             scatter.add(title, data)
-        scatter.render_to_file(f"charts/{str(chart_title).replace(' ', '')}.svg")
+        scatter.render_to_file(
+            f"charts/scatterplot_{str(chart_title).replace(' ', '')}.svg"
+        )
+
+    @staticmethod
+    def line(
+        *,
+        chart_title,
+        series_titles,
+        series_data,
+        style=LightSolarizedStyle,
+        x_labels=None,
+    ):
+        line = pygal.Line(title=chart_title, style=style, legend_at_bottom=True)
+        line.title = chart_title
+        if x_labels != None:
+            line.x_labels = x_labels
+        for title, data in zip(series_titles, series_data):
+            line.add(title, data)
+        line.render_to_file(f"charts/line_{str(chart_title).replace(' ', '')}.svg")
