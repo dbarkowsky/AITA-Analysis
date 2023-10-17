@@ -15,9 +15,9 @@ import TwoChart from "./components/TwoChart.vue";
           <v-list-item-title>GitHub</v-list-item-title>
         </v-list-item>
       </a>
-      <a href="https://dbarkowsky.github.io/">
+      <a href="https://www.reddit.com/r/AmItheAsshole/">
         <v-list-item>
-          <v-list-item-title>Portfolio</v-list-item-title>
+          <v-list-item-title>r/AmItheAsshole</v-list-item-title>
         </v-list-item>
       </a>
     </v-list>
@@ -378,8 +378,9 @@ import TwoChart from "./components/TwoChart.vue";
     </Row>
     <SingleRow v-slot:childSlot dark="true" title="So Long, Farewell...">
       <p>
-        I'm not a data scientist or a statistician, so there are definitely some
-        improvements to make here, but I hope you found this interesting.
+        I'm not a data scientist or a statistician, but I had a lot of fun doing
+        this and learned a lot too. There are definitely some improvements to
+        make here, but I hope you found this interesting.
       </p>
       <p>
         If you are interested at all in the code that makes this run, follow the
