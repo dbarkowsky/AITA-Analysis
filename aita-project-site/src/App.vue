@@ -48,11 +48,11 @@ import TwoChart from "./components/TwoChart.vue";
         top-rated comment has their vote applied to the post as a flair.
       </p>
       <p class="left-text">For example:</p>
-      <img class="styled-image" src="./assets/images/sample_post.png" />
+      <img class="styled-image" src="/assets/images/sample_post.png" />
     </SingleRow>
     <Row
       title="The Original Hypothesis"
-      img="\src\assets\charts\scatterplot_LikelihoodofAssholeifRomanticandOlderbyAgeDifference.svg"
+      img="/assets/charts/scatterplot_LikelihoodofAssholeifRomanticandOlderbyAgeDifference.svg"
       v-slot:childSlot
     >
       <p>Let's cut right to the chase.</p>
@@ -90,7 +90,7 @@ import TwoChart from "./components/TwoChart.vue";
     </SingleRow>
     <Row
       title="Methodology"
-      img="/src/assets/images/code_snippet.png"
+      img="/assets/images/code_snippet.png"
       v-slot:childSlot
       dark="true"
     >
@@ -139,7 +139,7 @@ import TwoChart from "./components/TwoChart.vue";
     </SingleRow>
     <Row
       title="Charts You Came For"
-      img="\src\assets\charts\bar_CountofPostbyFlair.svg"
+      img="\assets\charts\bar_CountofPostbyFlair.svg"
       v-slot:childSlot
     >
       <p>
@@ -170,8 +170,8 @@ import TwoChart from "./components/TwoChart.vue";
       </p>
     </SingleRow>
     <TwoChart
-      img1="\src\assets\charts\bar_AveragePostScoreperFlair.svg"
-      img2="\src\assets\charts\bar_AverageNumberofCommentsperFlair.svg"
+      img1="\assets\charts\bar_AveragePostScoreperFlair.svg"
+      img2="\assets\charts\bar_AverageNumberofCommentsperFlair.svg"
     ></TwoChart>
     <SingleRow v-slot:childSlot title="A Story of the Ages" dark="true">
       <p>
@@ -181,7 +181,7 @@ import TwoChart from "./components/TwoChart.vue";
       </p>
     </SingleRow>
     <Row
-      img="\src\assets\charts\stacked_bar_CountofAgeofPosters.svg"
+      img="\assets\charts\stacked_bar_CountofAgeofPosters.svg"
       dark="true"
       v-slot:childSlot
     >
@@ -209,7 +209,7 @@ import TwoChart from "./components/TwoChart.vue";
     </Row>
     <Row
       dark="true"
-      img="\src\assets\charts\scatterplot_LikelihoodofAssholebyAgeofPoster.svg"
+      img="\assets\charts\scatterplot_LikelihoodofAssholebyAgeofPoster.svg"
       v-slot:childSlot
     >
       <p>
@@ -244,8 +244,8 @@ import TwoChart from "./components/TwoChart.vue";
     </SingleRow>
     <TwoChart
       dark="true"
-      img2="\src\assets\charts\stacked_bar_RatioofPostsperAgeBracketperFlair.svg"
-      img1="\src\assets\charts\bar_CountofPostsperAgeBracketperFlair.svg"
+      img2="\assets\charts\stacked_bar_RatioofPostsperAgeBracketperFlair.svg"
+      img1="\assets\charts\bar_CountofPostsperAgeBracketperFlair.svg"
     />
     <SingleRow dark="true" v-slot:childSlot>
       <p>
@@ -275,13 +275,13 @@ import TwoChart from "./components/TwoChart.vue";
     </SingleRow>
     <TwoChart
       dark="true"
-      img2="\src\assets\charts\scatterplot_LikelihoodofAssholebyAgeGap.svg"
-      img1="\src\assets\charts\pyramid_CountofAgeDifferenceperFlair.svg"
+      img2="\assets\charts\scatterplot_LikelihoodofAssholebyAgeGap.svg"
+      img1="\assets\charts\pyramid_CountofAgeDifferenceperFlair.svg"
     />
     <Row
       v-slot:childSlot
       title="The Sex-y Part"
-      img="\src\assets\charts\bar_GenderTrendsbyCount.svg"
+      img="\assets\charts\bar_GenderTrendsbyCount.svg"
     >
       <p>
         I looked at two different metrics for gender. Normally people will mark
@@ -310,16 +310,16 @@ import TwoChart from "./components/TwoChart.vue";
     </Row>
     <Row
       v-slot:childSlot
-      img="\src\assets\charts\stacked_bar_GenderTrendsbyRatioofPosts.svg"
+      img="\assets\charts\stacked_bar_GenderTrendsbyRatioofPosts.svg"
     >
       <p>
         Moreover, the ratio of asshole to not-asshole is a bit worse for male
-        OPs, about 22.5%. Female OPs on the other hand have about an 13.8%
+        OPs, about 22.5%. Female OPs on the other hand have about a 13.8%
         asshole rate.
       </p>
       <p>
-        Perhaps this could be related to previously mentioned balance of male
-        and female users, assuming the people voting have the same gender
+        Perhaps this could be related to the previously mentioned balance of
+        male and female users, assuming the people voting have the same gender
         distribution as the people posting.
       </p>
       <p>
@@ -356,12 +356,12 @@ import TwoChart from "./components/TwoChart.vue";
     </SingleRow>
     <TwoChart
       dark="true"
-      img1="\src\assets\charts\bar_DistributionofFlairsbyEditedStatus.svg"
-      img2="\src\assets\charts\bar_DistributionofFlairsbyRomanticStatus.svg"
+      img1="\assets\charts\bar_DistributionofFlairsbyEditedStatus.svg"
+      img2="\assets\charts\bar_DistributionofFlairsbyRomanticStatus.svg"
     />
     <Row
       v-slot:childSlot
-      img="\src\assets\charts\horizontal_bar_Top10MostFrequentPosters.svg"
+      img="\assets\charts\horizontal_bar_Top10MostFrequentPosters.svg"
       title="The Top Dogs"
     >
       <p>
