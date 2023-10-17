@@ -2,29 +2,27 @@
 import { defineProps } from "vue";
 
 defineProps<{
-  title?: string;
-  img: string;
-  flip?: boolean;
   dark?: string;
+  img1?: string;
+  img2?: string;
 }>();
 
 export default {
-  name: "Row",
-  props: ["title", "flip", "dark", "img"],
+  name: "TwoChart",
+  props: ["dark", "img1", "img2"],
 };
 </script>
 
 <template>
   <v-row justify="center" :class="dark === 'true' ? 'dark' : ''">
-    <v-col lg="2" cols="0"></v-col>
-    <v-col>
-      <h3 v-if="title">{{ title }}</h3>
-      <slot name="childSlot"></slot>
+    <v-col lg="1" md="0" cols="0"></v-col>
+    <v-col lg="5" md="6" sm="12" cols="12">
+      <img :src="img1" />
     </v-col>
-    <v-col lg="5" md="8" sm="12" cols="12">
-      <img :src="img" />
+    <v-col lg="5" md="6" sm="12" cols="12">
+      <img :src="img2" />
     </v-col>
-    <v-col lg="2" cols="0"></v-col>
+    <v-col lg="1" md="0" cols="0"></v-col>
   </v-row>
 </template>
 

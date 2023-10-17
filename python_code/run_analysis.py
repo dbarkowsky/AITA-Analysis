@@ -2,6 +2,7 @@ import csv
 from stats_bundler import StatsBundler
 from refined_post import Refined_Post
 from chart_builder import ChartBuilder
+from pygal.style import DarkSolarizedStyle
 
 stats = StatsBundler()
 
@@ -145,6 +146,7 @@ ChartBuilder.pyramid(
     series_titles=list(stats.ahole_count.keys()),
     x_labels=map(str, range(age_cutoff + 1)),
     y_title="Age Difference (Years)",
+    style=DarkSolarizedStyle,
 )
 
 # Scatterplot to show likelihood of asshole based on age gap
@@ -159,6 +161,7 @@ ChartBuilder.scatterplot(
     series_data=percentage_age_difference_data,
     series_titles=["Not the A-hole", "Asshole"],
     x_title="Age Gap between Poster and Other Participant",
+    style=DarkSolarizedStyle,
 )
 
 # Bar chart for Age Bracket/Range per Flair
@@ -170,6 +173,7 @@ ChartBuilder.bar(
     series_titles=list(stats.ahole_count.keys()),
     series_data=age_range_data,
     x_labels=list(stats.ahole_count["Asshole"]["age_chunk"].keys()),
+    style=DarkSolarizedStyle,
 )
 # Stacked Bar for Ratio of the Same thing
 normalized_age_range_data = []
@@ -182,6 +186,7 @@ ChartBuilder.stacked_bar(
     series_titles=list(stats.ahole_count.keys()),
     series_data=normalized_age_range_data,
     x_labels=list(stats.ahole_count["Asshole"]["age_chunk"].keys()),
+    style=DarkSolarizedStyle,
 )
 
 # Scatterplot for K Question
@@ -211,6 +216,7 @@ ChartBuilder.stacked_bar(
     series_data=age_data,
     series_titles=list(stats.ahole_count.keys()),
     x_labels=map(str, range(13, age_cutoff + 1)),
+    style=DarkSolarizedStyle,
 )
 
 # Scatterplot - Likelihood by Age of Poster
@@ -224,6 +230,7 @@ ChartBuilder.scatterplot(
     series_data=percentage_age_data,
     series_titles=["Not the A-hole", "Asshole"],
     x_title="Age of Poster",
+    style=DarkSolarizedStyle,
 )
 
 # Stacked Bar for Romantic
@@ -240,6 +247,7 @@ ChartBuilder.bar(
     series_titles=list(stats.ahole_count.keys()),
     series_data=romantic_data,
     x_labels=["Romantic", "Not Romantic"],
+    style=DarkSolarizedStyle,
 )
 
 # Stacked Bar for Edited
@@ -256,6 +264,7 @@ ChartBuilder.bar(
     series_titles=list(stats.ahole_count.keys()),
     series_data=edited_data,
     x_labels=["Edited", "Not Edited"],
+    style=DarkSolarizedStyle,
 )
 
 # Top 10 posters -> horizontal bar
@@ -283,13 +292,20 @@ ChartBuilder.bar(
 )
 # Stacked Bar for Ratio of the Same thing
 normalized_gender_data = []
+gender_totals = [0, 0, 0, 0]
+for flair in stats.ahole_count.keys():
+    gender_totals[0] += stats.ahole_count[flair]["gender"]["M"]
+    gender_totals[1] += stats.ahole_count[flair]["gender"]["F"]
+    gender_totals[2] += stats.ahole_count[flair]["gender"]["same"]
+    gender_totals[3] += stats.ahole_count[flair]["gender"]["different"]
+
 for flair in stats.ahole_count.keys():
     normalized_gender_data.append(
         [
-            stats.ahole_count[flair]["gender"]["M"],
-            stats.ahole_count[flair]["gender"]["F"],
-            stats.ahole_count[flair]["gender"]["same"],
-            stats.ahole_count[flair]["gender"]["different"],
+            stats.ahole_count[flair]["gender"]["M"] / gender_totals[0],
+            stats.ahole_count[flair]["gender"]["F"] / gender_totals[1],
+            stats.ahole_count[flair]["gender"]["same"] / gender_totals[2],
+            stats.ahole_count[flair]["gender"]["different"] / gender_totals[3],
         ]
     )
 ChartBuilder.stacked_bar(
