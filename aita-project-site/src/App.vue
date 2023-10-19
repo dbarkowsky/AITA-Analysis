@@ -139,7 +139,7 @@ import TwoChart from "./components/TwoChart.vue";
     </SingleRow>
     <Row
       title="Charts You Came For"
-      img="\assets\charts\bar_CountofPostbyFlair.svg"
+      img="/assets/charts/bar_CountofPostbyFlair.svg"
       v-slot:childSlot
     >
       <p>
@@ -170,8 +170,8 @@ import TwoChart from "./components/TwoChart.vue";
       </p>
     </SingleRow>
     <TwoChart
-      img1="\assets\charts\bar_AveragePostScoreperFlair.svg"
-      img2="\assets\charts\bar_AverageNumberofCommentsperFlair.svg"
+      img1="/assets/charts/bar_AveragePostScoreperFlair.svg"
+      img2="/assets/charts/bar_AverageNumberofCommentsperFlair.svg"
     ></TwoChart>
     <SingleRow v-slot:childSlot title="A Story of the Ages" dark="true">
       <p>
@@ -181,7 +181,7 @@ import TwoChart from "./components/TwoChart.vue";
       </p>
     </SingleRow>
     <Row
-      img="\assets\charts\stacked_bar_CountofAgeofPosters.svg"
+      img="/assets/charts/stacked_bar_CountofAgeofPosters.svg"
       dark="true"
       v-slot:childSlot
     >
@@ -209,7 +209,7 @@ import TwoChart from "./components/TwoChart.vue";
     </Row>
     <Row
       dark="true"
-      img="\assets\charts\scatterplot_LikelihoodofAssholebyAgeofPoster.svg"
+      img="/assets/charts/scatterplot_LikelihoodofAssholebyAgeofPoster.svg"
       v-slot:childSlot
     >
       <p>
@@ -244,8 +244,8 @@ import TwoChart from "./components/TwoChart.vue";
     </SingleRow>
     <TwoChart
       dark="true"
-      img2="\assets\charts\stacked_bar_RatioofPostsperAgeBracketperFlair.svg"
-      img1="\assets\charts\bar_CountofPostsperAgeBracketperFlair.svg"
+      img2="/assets/charts/stacked_bar_RatioofPostsperAgeBracketperFlair.svg"
+      img1="/assets/charts/bar_CountofPostsperAgeBracketperFlair.svg"
     />
     <SingleRow dark="true" v-slot:childSlot>
       <p>
@@ -275,13 +275,13 @@ import TwoChart from "./components/TwoChart.vue";
     </SingleRow>
     <TwoChart
       dark="true"
-      img2="\assets\charts\scatterplot_LikelihoodofAssholebyAgeGap.svg"
-      img1="\assets\charts\pyramid_CountofAgeDifferenceperFlair.svg"
+      img2="/assets/charts/scatterplot_LikelihoodofAssholebyAgeGap.svg"
+      img1="/assets/charts/pyramid_CountofAgeDifferenceperFlair.svg"
     />
     <Row
       v-slot:childSlot
       title="The Sex-y Part"
-      img="\assets\charts\bar_GenderTrendsbyCount.svg"
+      img="/assets/charts/bar_GenderTrendsbyCount.svg"
     >
       <p>
         I looked at two different metrics for gender. Normally people will mark
@@ -299,7 +299,7 @@ import TwoChart from "./components/TwoChart.vue";
         It's notable that there are significantly more female posters here,
         which is almost opposite of the global Reddit gender distribution from
         2022 (<a
-          href="https://www.statista.com/statistics/1255182/distribution-of-users-on-reddit-worldwide-gender/"
+          href="https://www.statista.com/statistics/1255182ribution-of-users-on-reddit-worldwide-gender/"
           >Statista</a
         >).
       </p>
@@ -310,7 +310,7 @@ import TwoChart from "./components/TwoChart.vue";
     </Row>
     <Row
       v-slot:childSlot
-      img="\assets\charts\stacked_bar_GenderTrendsbyRatioofPosts.svg"
+      img="/assets/charts/stacked_bar_GenderTrendsbyRatioofPosts.svg"
     >
       <p>
         Moreover, the ratio of asshole to not-asshole is a bit worse for male
@@ -356,12 +356,12 @@ import TwoChart from "./components/TwoChart.vue";
     </SingleRow>
     <TwoChart
       dark="true"
-      img1="\assets\charts\bar_DistributionofFlairsbyEditedStatus.svg"
-      img2="\assets\charts\bar_DistributionofFlairsbyRomanticStatus.svg"
+      img1="/assets/charts/bar_DistributionofFlairsbyEditedStatus.svg"
+      img2="/assets/charts/bar_DistributionofFlairsbyRomanticStatus.svg"
     />
     <Row
       v-slot:childSlot
-      img="\assets\charts\horizontal_bar_Top10MostFrequentPosters.svg"
+      img="/assets/charts/horizontal_bar_Top10MostFrequentPosters.svg"
       title="The Top Dogs"
     >
       <p>
