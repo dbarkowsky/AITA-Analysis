@@ -90,7 +90,7 @@ import TwoChart from "./components/TwoChart.vue";
     </SingleRow>
     <Row
       title="Methodology"
-      img="/assets/images/code_snippet.png"
+      img="assets/images/code_snippet.png"
       v-slot:childSlot
       dark="true"
     >
